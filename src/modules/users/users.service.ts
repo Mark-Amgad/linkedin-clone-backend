@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/sequelize';
 
 import { User } from './models/user.model';
 import { IUserOnCreation } from './interfaces/user.interface';
+import { CreateUserDto } from './dtos/create-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -34,7 +35,7 @@ export class UsersService {
     return user;
   }
 
-  async createOne(user: IUserOnCreation): Promise<User> {
+  async createOne(user: CreateUserDto): Promise<User> {
     const oldUser: User = await this.userModel.findOne({
       where: {
         email: user.email,

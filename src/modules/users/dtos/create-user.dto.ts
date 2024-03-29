@@ -5,25 +5,21 @@ import {
   IsStrongPassword,
   Max,
   Min,
+  MinLength,
 } from 'class-validator';
 import { IUserOnCreation } from '../interfaces/user.interface';
+import { ApiProperty } from '@nestjs/swagger';
+import { UserDto } from './base-user.dto';
+import { PickType, OmitType } from '@nestjs/swagger';
 
-export class CreateUserDto implements IUserOnCreation {
-  @IsNotEmpty()
+export class CreateUserDto extends OmitType(UserDto, [
+  'id',
+  'createdAt',
+  'updatedAt',
+]) {
+  @ApiProperty()
   @IsString()
-  @Min(5)
-  name: string;
-
   @IsNotEmpty()
-  @IsEmail()
-  email: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @IsStrongPassword()
+  //@IsStrongPassword()
   password: string;
-
-  @IsString()
-  @IsNotEmpty()
-  location: string;
 }
