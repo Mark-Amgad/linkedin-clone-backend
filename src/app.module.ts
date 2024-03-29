@@ -8,6 +8,7 @@ import {
 } from './config/app.config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigService } from '@nestjs/config';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -24,11 +25,13 @@ import { ConfigService } from '@nestjs/config';
         username: configService.get('DATABASE_USERNAME'),
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME'),
+        autoLoadModels: true,
         synchronize: false,
         logging: true,
       }),
       inject: [ConfigService],
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
