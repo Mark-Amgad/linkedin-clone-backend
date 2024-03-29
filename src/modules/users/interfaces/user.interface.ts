@@ -8,9 +8,5 @@ export interface IUser {
   updatedAt: string;
 }
 
-export interface IUserOnCreation {
-  name: string;
-  email: string;
-  password: string;
-  location: string;
-}
+export interface IUserOnCreation
+  extends Omit<IUser, 'id' | 'createdAt' | 'updatedAt'> {}
