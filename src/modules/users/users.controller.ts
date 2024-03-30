@@ -1,9 +1,18 @@
-import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './models/user.model';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { IUser } from './interfaces/user.interface';
+import { Public } from '../auth/decorators/public.decorator';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 // TODO: all of these endpoints should be guarded for super admins only
 @ApiBearerAuth()
@@ -12,6 +21,7 @@ import { IUser } from './interfaces/user.interface';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   async findAll(): Promise<User[]> {
     const users: User[] = await this.usersService.findAll();

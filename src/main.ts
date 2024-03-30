@@ -15,6 +15,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Linkedin clone backend')
     .setDescription('The Linkedin clone API description')
+    .addBearerAuth()
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
