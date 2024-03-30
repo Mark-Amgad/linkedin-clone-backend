@@ -38,6 +38,9 @@ export class EnvironmentVariables {
 
   @IsString()
   DATABASE_NAME: string;
+
+  @IsString()
+  JWT_SECRET: string;
 }
 
 export function validateEnvironmentVariables(config: Record<string, unknown>) {
