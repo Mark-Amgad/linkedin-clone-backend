@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { RegisterDto } from './dtos/register.dto';
 import { IUser } from '../users/interfaces/user.interface';
 import { AccessToken } from './interfaces/auth-token.interface';
+import { ITokenPayload } from './interfaces/token-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -37,7 +38,7 @@ export class AuthService {
   }
 
   private async generateAuthToken(user: IUser): Promise<string> {
-    const payload = { id: user.id, name: user.name };
+    const payload: ITokenPayload = { id: user.id, email: user.email };
     return await this.jwtService.signAsync(payload);
   }
 }
