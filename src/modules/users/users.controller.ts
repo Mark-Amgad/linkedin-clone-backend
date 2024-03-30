@@ -21,7 +21,6 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Public() // TODO: to be removed
   @UseGuards(JwtAuthGuard)
   @Get('/')
   async findAll(): Promise<User[]> {

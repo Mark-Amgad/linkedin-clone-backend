@@ -7,6 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { Reflector } from '@nestjs/core';
 import { EnvironmentVariables } from 'src/config/app.config';
 import { ITokenPayload } from '../interfaces/token-payload.interface';
 
@@ -16,9 +17,18 @@ export class JwtAuthGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService<EnvironmentVariables>,
+    private readonly reflector: Reflector,
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+    if (isPublic) {
+      return true;
+    }
     const request = context.switchToHttp().getRequest();
+
     // extract token
     const token = this.getTokenFromHeader(request);
 
