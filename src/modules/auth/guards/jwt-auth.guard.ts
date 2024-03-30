@@ -7,12 +7,12 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { Observable } from 'rxjs';
 import { EnvironmentVariables } from 'src/config/app.config';
 import { ITokenPayload } from '../interfaces/token-payload.interface';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
+  //TODO: inject reflector and check on isPublic
   constructor(
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService<EnvironmentVariables>,

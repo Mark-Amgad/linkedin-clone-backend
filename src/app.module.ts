@@ -10,10 +10,14 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigService } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       validate: validateEnvironmentVariables,
       envFilePath: '.env',
     }),
@@ -32,10 +36,14 @@ import { AuthModule } from './modules/auth/auth.module';
       }),
       inject: [ConfigService],
     }),
+    JwtModule.register({ global: true }),
     UsersModule,
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    //{ provide: APP_GUARD, useClass: JwtAuthGuard }
+  ],
 })
 export class AppModule {}
