@@ -7,13 +7,12 @@ import { PostsService } from './posts.service';
 @ApiTags('Posts')
 @Controller('posts')
 export class PostsController {
-  // TODO: add service (inject service)
   constructor(private readonly postsService: PostsService) {}
 
   @Get('/')
-  // TODO : look at this part again
-  @ApiOkResponse({ type: Post })
   async findAll(): Promise<IPost[]> {
     return this.postsService.findAll();
   }
 }
+
+// TODO: write the migration file for posts
