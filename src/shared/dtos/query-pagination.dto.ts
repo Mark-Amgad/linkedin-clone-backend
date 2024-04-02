@@ -1,12 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumberString, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsInt, IsNumberString, IsOptional, Max, Min } from 'class-validator';
 
 export class QueryPaginationDto {
   @ApiProperty({ required: true, default: 1 })
-  @IsNumberString()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
   page: number;
 
   @ApiProperty({ required: true, default: 10 })
-  @IsNumberString()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(100)
   limit: number;
 }
