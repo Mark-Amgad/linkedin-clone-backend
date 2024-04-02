@@ -23,6 +23,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/')
+  // TODO: to be paginated
   async findAll(): Promise<User[]> {
     const users: User[] = await this.usersService.findAll();
     return users;
