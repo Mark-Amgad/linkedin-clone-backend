@@ -31,4 +31,11 @@ export class PostsService {
     const post = await this.postModel.create({ userId, content });
     return post;
   }
+
+  async deleteOne(postId: string, userId: string): string {
+    // TODO: check if the post exist
+    // TODO: check if the post is owned by the user
+    // TODO: delete it
+    // TODO: return the id
+  }
 }

@@ -40,4 +40,6 @@ export class PostsController {
     const userId = request.user.id;
     return this.postsService.createOne(userId, content);
   }
+
+  // TODO: delete endpoint
 }
