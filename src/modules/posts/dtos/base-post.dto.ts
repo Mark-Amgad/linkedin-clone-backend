@@ -1,15 +1,15 @@
 import {
-  IsEmail,
   IsNotEmpty,
   IsString,
-  IsStrongPassword,
   IsUUID,
+  MaxLength,
+  Min,
   MinLength,
 } from 'class-validator';
-import { IUser, IUserOnCreation } from '../interfaces/user.interface';
+import { IPost } from '../interfaces/post.interface';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UserDto implements IUser {
+export class PostDto implements IPost {
   @ApiProperty()
   @IsNotEmpty()
   @IsUUID(4)
@@ -18,24 +18,14 @@ export class UserDto implements IUser {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  @MinLength(5)
-  name: string;
+  @MinLength(2)
+  @MaxLength(1023)
+  content: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsEmail()
-  email: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  //@IsStrongPassword()
-  password: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  location: string;
+  @IsUUID(4)
+  userId: string;
 
   @ApiProperty()
   @IsString()
