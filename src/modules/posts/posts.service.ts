@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Post } from './models/post.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { IPost } from './interfaces/post.interface';
@@ -32,10 +36,21 @@ export class PostsService {
     return post;
   }
 
-  async deleteOne(postId: string, userId: string): string {
-    // TODO: check if the post exist
-    // TODO: check if the post is owned by the user
-    // TODO: delete it
-    // TODO: return the id
+  async deleteOne(postId: string, userId: string): Promise<string> {
+    const post = await this.postModel.findByPk(postId);
+    if (!post) {
+      throw new NotFoundException('The post is not found');
+    }
+
+    if (post.userId !== userId) {
+      throw new UnauthorizedException(
+        'You are not authorized to delete this post',
+      );
+    }
+    await this.postModel.destroy({
+      where: { id: postId, userId },
+    });
+
+    return postId;
   }
 }

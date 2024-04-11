@@ -6,6 +6,8 @@ import {
   Body,
   Req,
   UseGuards,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { IPost } from './interfaces/post.interface';
@@ -17,6 +19,7 @@ import { PostDto } from './dtos/base-post.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RequestWithUser } from 'src/shared/interfaces/request-with-user.interface';
 import { FindAllPostsQueryDto } from './dtos/find-all-posts-query.dto';
+import { IdDto } from 'src/shared/dtos/id-param.dto';
 
 @ApiTags('Posts')
 @ApiBearerAuth()
@@ -41,5 +44,15 @@ export class PostsController {
     return this.postsService.createOne(userId, content);
   }
 
-  // TODO: delete endpoint
+  @Delete('/:id')
+  @UseGuards(JwtAuthGuard)
+  async deleteOne(
+    @Param() params: IdDto,
+    @Req() request: RequestWithUser,
+  ): Promise<string> {
+    const postId = params.id;
+    const userId = request.user.id;
+    const deletedPostId = await this.postsService.deleteOne(postId, userId);
+    return deletedPostId;
+  }
 }
