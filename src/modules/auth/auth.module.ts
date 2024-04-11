@@ -18,7 +18,7 @@ import { AuthService } from './auth.service';
       ) => ({
         global: true,
         secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '120s' },
+        signOptions: { expiresIn: '120m' },
       }),
     }),
   ],
