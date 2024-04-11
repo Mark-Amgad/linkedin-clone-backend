@@ -9,6 +9,7 @@ import { IPost } from './interfaces/post.interface';
 import { QueryPaginationDto } from 'src/shared/dtos/query-pagination.dto';
 import { PostDto } from './dtos/base-post.dto';
 import { FindAllPostsQueryDto } from './dtos/find-all-posts-query.dto';
+import { PaginationResponseDto } from 'src/shared/dtos/pagination-response.dto';
 
 @Injectable()
 export class PostsService {
@@ -18,8 +19,8 @@ export class PostsService {
     page,
     limit,
     userId,
-  }: FindAllPostsQueryDto): Promise<IPost[]> {
-    const posts = await this.postModel.findAll({
+  }: FindAllPostsQueryDto): Promise<PaginationResponseDto<PostDto[]>> {
+    const { rows, count } = await this.postModel.findAndCountAll({
       where: {
         ...(userId && {
           userId,
@@ -28,7 +29,14 @@ export class PostsService {
       limit,
       offset: (page - 1) * limit,
     });
-    return posts;
+
+    return {
+      data: rows.map((row) => row.toJSON()),
+      limit,
+      page,
+      pages: Math.ceil(count / limit),
+      total: count,
+    };
   }
 
   async createOne(userId: string, content: string): Promise<PostDto> {

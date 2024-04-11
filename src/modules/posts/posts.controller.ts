@@ -20,6 +20,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RequestWithUser } from 'src/shared/interfaces/request-with-user.interface';
 import { FindAllPostsQueryDto } from './dtos/find-all-posts-query.dto';
 import { IdDto } from 'src/shared/dtos/id-param.dto';
+import { PaginationResponseDto } from 'src/shared/dtos/pagination-response.dto';
 
 @ApiTags('Posts')
 @ApiBearerAuth()
@@ -28,7 +29,13 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get('/')
-  async findAll(@Query() query: FindAllPostsQueryDto): Promise<PostDto[]> {
+  @ApiOkResponse({
+    description: 'Posts Records',
+    type: PaginationResponseDto<PostDto[]>,
+  })
+  async findAll(
+    @Query() query: FindAllPostsQueryDto,
+  ): Promise<PaginationResponseDto<PostDto[]>> {
     const { page = 1, limit = 10, userId } = query;
     return this.postsService.findAll({ page, limit, userId });
   }
