@@ -23,7 +23,6 @@ export class ProfilesService {
     return profile;
   }
 
-  // TODO: add validation to check the user's update his or her profile
   async updateProfileWithId(
     id: string,
     userId: string,
