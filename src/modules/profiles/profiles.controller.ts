@@ -7,7 +7,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { PaginationResponseDto } from 'src/shared/dtos/pagination-response.dto';
 import { ProfileDto } from './dtos/base-profile.dto';
 import { FindProfilesListQueryDto } from './dtos/find-profiles-list-query.dto';
@@ -31,6 +31,10 @@ export class ProfilesController {
     return await this.profilesService.getProfilesList({ page, limit });
   }
 
+  @ApiOkResponse({
+    description: 'Posts Records',
+    type: ProfileDto,
+  })
   @Patch('/:id')
   @UseGuards(JwtAuthGuard)
   async updateProfile(

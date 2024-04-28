@@ -10,16 +10,23 @@ import { CreateProfileDto } from './dtos/create-profile.dto';
 import { UpdateProfileDto } from './dtos/update-profile.dto';
 import { FindProfilesListQueryDto } from './dtos/find-profiles-list-query.dto';
 import { PaginationResponseDto } from 'src/shared/dtos/pagination-response.dto';
+import { Transaction } from 'sequelize';
 
 @Injectable()
 export class ProfilesService {
   constructor(
     @InjectModel(Profile) private readonly profileModel: typeof Profile,
   ) {}
-  async createOne(createProfileDto: CreateProfileDto): Promise<ProfileDto> {
-    const profile = await this.profileModel.create({
-      userId: createProfileDto.userId,
-    });
+  async createOne(
+    createProfileDto: CreateProfileDto,
+    transaction?: Transaction,
+  ): Promise<ProfileDto> {
+    const profile = await this.profileModel.create(
+      {
+        userId: createProfileDto.userId,
+      },
+      { transaction },
+    );
     return profile;
   }
 
