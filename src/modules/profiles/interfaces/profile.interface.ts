@@ -12,7 +12,7 @@ export interface IProfile extends IBase {
   avatar?: string;
   cover?: string;
 
-  numberOfConnections: number;
+  noOfConnections: number;
 }
 
 export interface IProfileOnCreation

@@ -51,7 +51,7 @@ export class ProfileDto implements IProfile {
 
   @ApiProperty()
   @IsInt()
-  numberOfConnections: number;
+  noOfConnections: number;
 
   @ApiProperty()
   @IsString()
